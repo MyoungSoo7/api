@@ -1,9 +1,7 @@
 package com.lms.api.shopping.controller;
 
-import com.lms.api.search.dto.NaverShoppingSearchResultDto;
-import com.lms.api.search.dto.NaverSearchResultDto;
-import com.lms.api.search.service.NaverShoppingService;
-import com.lms.api.search.service.NaverSearchCrawlingService;
+import com.lms.api.shopping.dto.NaverShoppingSearchResultDto;
+import com.lms.api.shopping.service.NaverShoppingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,17 +15,20 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class ApiController {
+public class ShoppingController {
 
     private final NaverShoppingService naverShoppingService;
 
     @GetMapping("/api/shopping-item")
     @ResponseBody
-    public void getShoppingItems(@RequestParam String query) throws IOException {
-        //String query ="커피";
+    public List<NaverShoppingSearchResultDto> getShoppingItems() throws IOException {
+        //@RequestParam String query)
+        String query ="커피";
         List<NaverShoppingSearchResultDto> naverShoppingSearchResultDtoList = naverShoppingService.getItems(query);
-        log.info("itemDtoList=>"+ naverShoppingSearchResultDtoList.toString());
-
+        for(NaverShoppingSearchResultDto naverShoppingSearchResultDto : naverShoppingSearchResultDtoList){
+            log.info("itemDto=>"+ naverShoppingSearchResultDto.toString());
+        }
+        return naverShoppingSearchResultDtoList;
     }
 
 }

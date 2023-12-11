@@ -1,4 +1,4 @@
-package com.lms.api.search.dto;
+package com.lms.api.shopping.dto;
 
 import lombok.Getter;
 

@@ -1,34 +1,37 @@
-package com.lms.api.search.service;
+package com.lms.api.shopping.service;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lms.api.search.dto.NaverShoppingSearchResultDto;
-import org.springframework.beans.factory.annotation.Value;
+import com.lms.api.shopping.dto.NaverShoppingSearchResultDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.io.IOException;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class NaverShoppingService {
 
-    @Value("${naver.client.secret}")
-    private String naverClientSecret;
+    /*@Value(value = "${naver.client.secret}")
+    private String naverClientSecret;*/
 
     public List<NaverShoppingSearchResultDto> getItems(String query) throws IOException {
 
         RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Naver-Client-Id", "zdqMoIkFaK8uKvC2oNY2");
-        headers.add("X-Naver-Client-Secret", naverClientSecret);
+        headers.add("X-Naver-Client-Secret", "LiZfsgtuD5");
         String body ="";
         HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
 

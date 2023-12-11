@@ -1,10 +1,8 @@
-package com.lms.pharmacyrecommend.direction.service;
+package com.lms.api.direction.service;
 
-import com.lms.pharmacyrecommend.api.dto.DocumentDto;
-import com.lms.pharmacyrecommend.api.service.KakaoCategorySearchService;
-import com.lms.pharmacyrecommend.direction.entity.Direction;
-import com.lms.pharmacyrecommend.direction.repository.DirectionRepository;
-import com.lms.pharmacyrecommend.pharmacy.service.PharmacySearchService;
+import com.lms.api.direction.dto.DocumentDto;
+import com.lms.api.direction.entity.Direction;
+import com.lms.api.direction.repository.DirectionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,7 +24,7 @@ public class DirectionService {
     private static final double RADIUS_KM = 10.0; // 반경 10 km
     private static final String DIRECTION_BASE_URL = "https://map.kakao.com/link/map/";
 
-    private final PharmacySearchService pharmacySearchService;
+    //private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
     private final Base62Service base62Service;
 
@@ -45,7 +42,7 @@ public class DirectionService {
         Long decodedId = base62Service.decodeDirectionId(encodedId);
         Direction direction = directionRepository.findById(decodedId).orElse(null);
 
-        String params = String.join(",", direction.getTargetPharmacyName(),
+        String params = String.join(",", direction.getTargetName(),
                 String.valueOf(direction.getTargetLatitude()), String.valueOf(direction.getTargetLongitude()));
         String result = UriComponentsBuilder.fromHttpUrl(DIRECTION_BASE_URL + params)
                 .toUriString();
@@ -53,7 +50,7 @@ public class DirectionService {
         return result;
     }
 
-    public List<Direction> buildDirectionList(DocumentDto documentDto) {
+    /*public List<Direction> buildDirectionList(DocumentDto documentDto) {
         if(Objects.isNull(documentDto)) return Collections.emptyList();
         log.info("documentDto>>>>>>"+documentDto.getAddressName());
 
@@ -76,7 +73,7 @@ public class DirectionService {
                 .sorted(Comparator.comparing(Direction::getDistance))
                 .limit(MAX_SEARCH_COUNT)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     // pharmacy search by category kakao api
     public List<Direction> buildDirectionListByCategoryApi(DocumentDto inputDocumentDto) {
@@ -90,7 +87,7 @@ public class DirectionService {
                                 .inputAddress(inputDocumentDto.getAddressName())
                                 .inputLatitude(inputDocumentDto.getLatitude())
                                 .inputLongitude(inputDocumentDto.getLongitude())
-                                .targetPharmacyName(resultDocumentDto.getPlaceName())
+                                .targetName(resultDocumentDto.getPlaceName())
                                 .targetAddress(resultDocumentDto.getAddressName())
                                 .targetLatitude(resultDocumentDto.getLatitude())
                                 .targetLongitude(resultDocumentDto.getLongitude())

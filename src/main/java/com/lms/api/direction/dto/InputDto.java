@@ -1,6 +1,9 @@
-package com.lms.pharmacyrecommend.direction.dto;
+package com.lms.api.direction.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder

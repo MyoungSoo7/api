@@ -1,4 +1,4 @@
-package com.lms.api.util;
+package com.lms.api.search.service;
 
 import com.lms.api.search.dto.NaverSearchResultDto;
 import org.jsoup.Jsoup;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class NaverSearchService {
+public class NaverSearchCrawlingService {
 
     public List<NaverSearchResultDto> getNaverSearchResult(String query) throws IOException {
 
@@ -20,14 +20,15 @@ public class NaverSearchService {
         Document doc = Jsoup.connect(URL).get();
         Elements elements = doc.select("div.news_contents > a");
 
-        StringBuilder sb = new StringBuilder();
         List<NaverSearchResultDto> naverSearchResultDtoList = new ArrayList<NaverSearchResultDto>();
 
         for(Element element : elements){
             NaverSearchResultDto naverSearchResultDto = new NaverSearchResultDto();
-            naverSearchResultDto.setNews(element.text());
-            naverSearchResultDtoList.add (naverSearchResultDto);
-            sb.append(element.text());
+            if(!element.text().equals("")&& !element.text().equals("동영상")){
+                naverSearchResultDto.setNews(element.text());
+                naverSearchResultDtoList.add (naverSearchResultDto);
+            }
+
         }
         return naverSearchResultDtoList;
     }

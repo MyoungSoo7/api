@@ -1,6 +1,6 @@
-package com.lms.pharmacyrecommend.direction.controller;
+package com.lms.api.direction.controller;
 
-import com.lms.pharmacyrecommend.direction.service.DirectionService;
+import com.lms.api.direction.service.DirectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

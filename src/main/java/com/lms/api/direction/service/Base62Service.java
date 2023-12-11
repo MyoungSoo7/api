@@ -1,4 +1,4 @@
-package com.lms.pharmacyrecommend.direction.service;
+package com.lms.api.direction.service;
 
 import io.seruco.encoding.base62.Base62;
 import lombok.RequiredArgsConstructor;

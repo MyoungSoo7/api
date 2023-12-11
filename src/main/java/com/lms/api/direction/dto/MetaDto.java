@@ -1,4 +1,4 @@
-package com.lms.pharmacyrecommend.api.dto;
+package com.lms.api.direction.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

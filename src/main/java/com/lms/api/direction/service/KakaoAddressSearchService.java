@@ -1,6 +1,6 @@
-package com.lms.pharmacyrecommend.api.service;
+package com.lms.api.direction.service;
 
-import com.lms.pharmacyrecommend.api.dto.KakaoApiResponseDto;
+import com.lms.api.direction.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
