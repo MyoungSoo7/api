@@ -15,6 +15,7 @@ spring:
       on-profile: common
   thymeleaf:
     cache: false
+    prefix: file:src/main/resources/templates/
 
 naver:
   client:
