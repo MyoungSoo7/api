@@ -1,12 +1,9 @@
 package com.lms.api.food.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class InputDto {
-
 
     private String title;
     private String link;

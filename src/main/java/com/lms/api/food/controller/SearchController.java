@@ -7,10 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.api.food.dto.InputDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,9 +26,15 @@ import java.util.Map;
 @Controller
 @Slf4j
 @RequestMapping("/api")
-public class NaverSearchController {
+public class SearchController {
+/*
+    @Value("${naver.client.id}")
+    private String clientId2;
 
-    @RequestMapping(path = "/nsearch")
+    @Value("${naver.client.secret}")
+    private String clientSecret2;*/
+
+    @GetMapping(path = "/nsearch")
     @ResponseBody
     public List<InputDto> NaverSerch(@RequestParam(value = "query") String query) throws Exception {
         log.info("query>>>>>>"+query);

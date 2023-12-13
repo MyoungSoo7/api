@@ -15,7 +15,9 @@ spring:
       on-profile: common
   thymeleaf:
     cache: false
-    prefix: file:src/main/resources/templates/
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 naver:
   client:
@@ -59,6 +61,7 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+
 
 ---
 spring:
