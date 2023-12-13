@@ -6,13 +6,10 @@ import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
-//@Configuration
+@Configuration
 public class RetryConfig {
 
-    public void test(){
-        System.out.println("test");
-    }
-    /*@Bean
+    @Bean
     public RetryTemplate retryTemplate() {
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
         fixedBackOffPolicy.setBackOffPeriod(1000);  //지정한 시간만큼 대기후 재시도 한다.
@@ -24,6 +21,6 @@ public class RetryConfig {
         retryTemplate.setRetryPolicy(retryPolicy);
 
         return retryTemplate;
-    }*/
+    }
 
 }

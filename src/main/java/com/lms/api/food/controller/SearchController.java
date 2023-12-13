@@ -28,19 +28,24 @@ import java.util.Map;
 @RequestMapping("/api")
 public class SearchController {
 
-    /*
-    @Value("${naver.client.id}")
-    private String clientId2;
+    @Value(value = "${naver.client.id}")
+    private String naverClientId;
+    @Value(value = "${naver.client.secret}")
+    private String naverClientSecret;
 
-    @Value("${naver.client.secret}")
-    private String clientSecret2;*/
+   /* @Operation(summary = "네이버 블로그 검색")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK !!"),
+            @ApiResponse(code = 404, message = "Not Found !!"),
+            @ApiResponse(code = 403, message = "Forbidden !!"),
+            @ApiResponse(code = 500, message = "Internal Server Error !!")
+    })*/
 
     @GetMapping(path = "/nsearch")
     @ResponseBody
-    public List<InputDto> NaverSerch(@RequestParam(value = "query") String query) throws Exception {
+    public List<InputDto> NaverBlogSerch(@RequestParam(value = "query") String query) throws Exception {
         log.info("query>>>>>>"+query);
         String clientId = "BbLimHCNrYs337KIjE4U"; //애플리케이션 클라이언트 아이디
-        String clientSecret = "rhHaR8aq7_"; //애플리케이션 클라이언트 시크릿
 
         String text = null;
         try {
@@ -55,8 +60,8 @@ public class SearchController {
 
 
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        requestHeaders.put("X-Naver-Client-Id", naverClientId);
+        requestHeaders.put("X-Naver-Client-Secret", naverClientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
         ObjectMapper objectMapper = new ObjectMapper()
