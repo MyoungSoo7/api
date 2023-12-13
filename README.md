@@ -3,7 +3,7 @@
 [활용기술] <br>
 자바17  <br>
 스프링부트3.2 <br>
-maridb <br>
+mariadb <br>
 
 [ERD] <br>
 
