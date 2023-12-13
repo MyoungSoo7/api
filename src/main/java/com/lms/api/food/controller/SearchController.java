@@ -27,7 +27,8 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("/api")
 public class SearchController {
-/*
+
+    /*
     @Value("${naver.client.id}")
     private String clientId2;
 

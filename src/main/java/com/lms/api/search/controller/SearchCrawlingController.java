@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class SearchController {
+public class SearchCrawlingController {
 
     private final NaverSearchCrawlingService naverSearchCrawlingService;
 

@@ -1,18 +1,12 @@
 package com.lms.api.search.dto;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class NaverSearchResultDto {
-
     private String news;
-    @Override
-    public String toString() {
-        return "NaverSearchResultDto{" +
-                "news='" + news + '\'' +
-                '}';
-    }
+
 }
