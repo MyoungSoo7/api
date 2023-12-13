@@ -15,12 +15,11 @@ import java.util.Objects;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api")
 public class ShoppingController {
 
     private final NaverShoppingService naverShoppingService;
 
-    @GetMapping(path="/shopping")
+    @GetMapping(path="api/shopping")
     @ResponseBody
     public List<NaverShoppingSearchResultDto> getShoppingItems(@RequestParam(value="query") String query) throws IOException {
 
