@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>맛집 지도</title>
+    <!--부트스트랩 css 추가-->
+    <link rel="stylesheet" href="/css/lib/bootstrap.min.css">
+    <style>
+        img {
+            margin: 0 0 5px;
+            width: 70%;
+            height: 550px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h2 class="h2-title">블로거</h2>
+</div>
+
+<table class="table table-hover">
+    <tr>
+        <th>제목</th>
+        <th>블로거이름</th>
+        <th>설명</th>
+        <th>날짜</th>
+    </tr>
+    {{#outputFormList}}
+        <tr>
+            <td><a href="{{link}}" target="_blank">{{title}}</a></td>
+            <td><a href="{{bloggerlink}}" target="_blank">{{bloggername}}</a></td>
+            <td>{{description}}</td>
+            <td>{{postdate}}</td>
+
+        </tr>
+    {{/outputFormList}}
+</table>
+
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -5,9 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lms.api.food.dto.InputDto;
-import com.lms.api.food.dto.SearchLocalReq;
-import com.lms.api.food.dto.SearchLocalRes;
+import com.lms.api.config.ObjectMapperConfig;
+import com.lms.api.food.dto.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,6 +30,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FoodService {
 
     @Value(value = "${naver.client.id}")
@@ -41,9 +41,9 @@ public class FoodService {
     private String naverLocalSearchUrl;
     @Value("${naver.url.search.image}")
     private String naverImageSearchUrl;
+    //private final WishListRepository wishListRepository;
 
-
-    public SearchLocalRes localSearch(String query) {
+    public SearchLocalRes localSearch(String query)  throws IOException {
         SearchLocalReq req =new SearchLocalReq();
         req.setQuery(query);
 
@@ -73,9 +73,74 @@ public class FoodService {
         String responseBody = String.valueOf(responseEntity.getBody());
         SearchLocalRes searchLocalRes = responseEntity.getBody();
 
-
         return searchLocalRes;
     }
+
+    public SearchImageRes searchImage(SearchImageReq searchImageReq) {
+        var uri = UriComponentsBuilder
+                .fromUriString(naverImageSearchUrl)
+                .queryParams(searchImageReq.toMultiValueMap())
+                .build()
+                .encode()
+                .toUri();
+
+        var headers = new HttpHeaders();
+        headers.set("X-Naver-Client-Id", naverClientId);
+        headers.set("X-Naver-Client-Secret", naverClientSecret);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        var httpEntity = new HttpEntity<>(headers);
+        var responseType = new ParameterizedTypeReference<SearchImageRes>(){};
+
+
+        var responseEntity = new RestTemplate()
+                .exchange(
+                        uri,
+                        HttpMethod.GET,
+                        httpEntity,
+                        responseType
+                );
+        String responseBody = String.valueOf(responseEntity.getBody());
+        SearchImageRes searchImageRes = responseEntity.getBody();
+
+        return searchImageRes;
+    }
+
+    public WishListDto wishSearch(String query){
+
+        // 지역 검색
+        var searchLocalReq = new SearchLocalReq();
+        searchLocalReq.setQuery(query);
+
+       /* var searchLocalRes = naverClient.searchLocal(searchLocalReq);
+
+        if(searchLocalRes.getTotal() > 0) {
+            var localItem = searchLocalRes.getItems().stream().findFirst().get();
+
+            // 이미지 검색
+            var imageQuery = localItem.getTitle().replaceAll("<[^>]*>", "");
+            var searchImageReq = new SearchImageReq();
+            searchImageReq.setQuery(imageQuery);
+
+            var searchImageRes = naverClient.searchImage(searchImageReq);
+
+            if(searchImageRes.getTotal() > 0) {
+                var imageItem = searchImageRes.getItems().stream().findFirst().get();
+                // 결과를 리턴
+                var result = new WishListDto();
+                result.setTitle(localItem.getTitle());
+                result.setCategory(localItem.getCategory());
+                result.setAddress(localItem.getAddress());
+                result.setReadAddress(localItem.getRoadAddress());
+                result.setHomePageLink(localItem.getLink());
+                result.setImageLink(imageItem.getLink());
+
+                return result;
+            }
+        }*/
+        return new WishListDto();
+    }
+
 
     public List<InputDto> NaverBlogSerch(String query) throws Exception {
         log.info("query>>>>>>"+query);

@@ -25,9 +25,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // mustache
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
     //implementation 'org.springframework.boot:spring-boot-starter-security'
     //implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     //swagger
     //localhost:8080/swagger-ui/index.html
@@ -44,6 +46,7 @@ dependencies {
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'    //
     implementation group: 'org.json', name: 'json', version: '20231013'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.16.1'
+
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
