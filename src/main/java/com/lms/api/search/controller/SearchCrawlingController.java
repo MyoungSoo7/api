@@ -29,9 +29,9 @@ public class SearchCrawlingController {
         
         List<NaverSearchResultDto> itemDtoList = naverSearchCrawlingService.getNaverSearchResult(query);
 
-        for(NaverSearchResultDto item : itemDtoList){
+      /*  for(NaverSearchResultDto item : itemDtoList){
             log.info("item=>"+ item.toString());
-        }
+        }*/
 
         return itemDtoList;
     }
