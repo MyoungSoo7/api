@@ -4,8 +4,10 @@
 자바17  <br>
 스프링부트3.2 <br>
 mariadb <br>
+spring-data-jpa <br>
 
 [ERD] <br>
+
 
 
 [작업내용]<br>
