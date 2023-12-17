@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class SearchController {
+public class SearchCrawlingController {
 
     private final NaverSearchCrawlingService naverSearchCrawlingService;
 
@@ -29,9 +29,9 @@ public class SearchController {
         
         List<NaverSearchResultDto> itemDtoList = naverSearchCrawlingService.getNaverSearchResult(query);
 
-        for(NaverSearchResultDto item : itemDtoList){
+      /*  for(NaverSearchResultDto item : itemDtoList){
             log.info("item=>"+ item.toString());
-        }
+        }*/
 
         return itemDtoList;
     }

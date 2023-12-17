@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.internal.StringUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +19,7 @@ public class ShoppingController {
 
     private final NaverShoppingService naverShoppingService;
 
-    @GetMapping("/api/shopping-item")
+    @GetMapping(path="api/shopping")
     @ResponseBody
     public List<NaverShoppingSearchResultDto> getShoppingItems(@RequestParam(value="query") String query) throws IOException {
 
@@ -29,10 +27,9 @@ public class ShoppingController {
             query = "커피";
         }
         List<NaverShoppingSearchResultDto> naverShoppingSearchResultDtoList = naverShoppingService.getItems(query);
-        for(NaverShoppingSearchResultDto naverShoppingSearchResultDto : naverShoppingSearchResultDtoList){
-            log.info("itemDto=>"+ naverShoppingSearchResultDto.toString());
-        }
         return naverShoppingSearchResultDtoList;
     }
+
+
 
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.api.shopping.dto.NaverShoppingSearchResultDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,15 +24,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NaverShoppingService {
 
-    /*@Value(value = "${naver.client.secret}")
-    private String naverClientSecret;*/
+    @Value(value = "${naver.client.secret}")
+    private String naverClientSecret;
 
     public List<NaverShoppingSearchResultDto> getItems(String query) throws IOException {
 
         RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Naver-Client-Id", "zdqMoIkFaK8uKvC2oNY2");
-        headers.add("X-Naver-Client-Secret", "LiZfsgtuD5");
+        headers.add("X-Naver-Client-Secret", naverClientSecret);
         String body ="";
         HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
 
