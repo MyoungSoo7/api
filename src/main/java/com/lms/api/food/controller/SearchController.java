@@ -1,11 +1,9 @@
 package com.lms.api.food.controller;
 
 
-import com.lms.api.food.dto.SearchLocalItem;
-import com.lms.api.food.dto.SearchLocalReq;
-import com.lms.api.food.dto.SearchLocalRes;
-import com.lms.api.food.dto.WishListDto;
-import com.lms.api.food.service.FoodService;
+import com.lms.api.food.dto.naver.SearchLocalItem;
+import com.lms.api.food.dto.naver.WishListDto;
+import com.lms.api.food.service.naver.FoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;

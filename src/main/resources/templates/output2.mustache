@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="kr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -10,7 +10,7 @@
   <!--<meta property="og:image" content="images/og_selectshop.png">-->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-<!--  <link rel="stylesheet" href="css/style.css">-->
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 
@@ -38,7 +38,22 @@
             <td>{{mapx}}</td>
         </tr>
     {{/outputFormList}}
-</table>
 
+    <tr>
+        <th>keyword</th>
+        <th>횟수</th>
+    </tr>
+    {{#foodList}}
+        <tr>
+            <td>{{food}}</td>
+            <td>{{cnt}}</td>
+        </tr>
+    {{/foodList}}
+
+
+</table>
+<div>
+<a href="/">뒤로</a>
+</div>
 </body>
 </html>
