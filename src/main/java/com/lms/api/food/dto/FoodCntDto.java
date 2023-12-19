@@ -1,4 +1,4 @@
-package com.lms.api.food.dto.naver;
+package com.lms.api.food.dto;
 
 
 public interface FoodCntDto {

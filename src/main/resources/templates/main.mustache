@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -22,6 +22,12 @@
         font-family: 'Noto Sans KR', sans-serif;
     }
 </style>
+
+ <script>
+
+
+
+ </script>
 <body>
 <!--<div class="container">
     <div>
@@ -32,7 +38,9 @@
             <div>
                 <label for="address">음식관련 키워드를 입력하시면 맛집을 추천해드립니다.</label>
                 <input type="text" class="form-control" id="food" name="food"
-                       placeholder="ex) 갈비집">
+                       placeholder="ex) 갈비집" >
+                 <input type="radio" id="sort" name="sort" value="comment" checked="checked">카페/블로그 리뷰 개수 순</input>
+                 <input type="radio" id="sort" name="sort" value="random">유사도순</input>
             </div>
             <div>
                 <button type="submit" class="btn btn-primary" id="btn-save">Search</button>

@@ -18,5 +18,13 @@ public class Food extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String food;
+    private String address;
+    private double latitude;
+    private double longitude;
+
+
+    public void changeFood(String food) {
+        this.food = food;
+    }
 
 }

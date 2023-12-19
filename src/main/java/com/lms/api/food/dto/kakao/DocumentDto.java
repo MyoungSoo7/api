@@ -16,27 +16,27 @@ public class DocumentDto {
     @JsonProperty("id")
     private String id;
     @JsonProperty("place_name")
-    private String placeName;
+    private String title;
     @JsonProperty("category_name")
-    private String categoryName;
+    private String category;
     @JsonProperty("category_group_code")
     private String categoryGroupCode;
     @JsonProperty("category_group_name")
-    private String categoryGroupName="FD6";
+    private String description;
     @JsonProperty("phone")
-    private String phone;
+    private String telephone;
     @JsonProperty("address_name")
-    private String addressName;
+    private String address;
     @JsonProperty("road_address_name")
-    private String roadAddressName;
+    private String roadAddress;
     @JsonProperty("place_url")
-    private String placeUrl;
+    private String link;
     @JsonProperty("distance")
     private double distance;
     @JsonProperty("y")
-    private double latitude;
+    private double mapy;
     @JsonProperty("x")
-    private double longitude;
+    private double mapx;
 
 
 

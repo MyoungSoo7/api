@@ -1,4 +1,4 @@
-package com.lms.api.food.dto.naver;
+package com.lms.api.food.dto;
 
 import lombok.Data;
 
@@ -6,5 +6,7 @@ import lombok.Data;
 public class FoodInputDto {
 
     private String food;
+    private String sort;
+    private String page;
     private String cnt;
 }

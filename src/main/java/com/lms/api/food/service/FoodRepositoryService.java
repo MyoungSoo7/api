@@ -1,7 +1,7 @@
-package com.lms.api.food.service.naver;
+package com.lms.api.food.service;
 
 
-import com.lms.api.food.dto.naver.FoodCntDto;
+import com.lms.api.food.dto.FoodCntDto;
 import com.lms.api.food.entity.Food;
 import com.lms.api.food.repository.FoodReposiroty;
 import lombok.RequiredArgsConstructor;
@@ -16,24 +16,13 @@ import java.util.List;
 public class FoodRepositoryService {
 
     private final FoodReposiroty foodReposiroty;
-    //private final LocalItemRepository localItemRepository;
 
     public Food save(Food food) {
         return foodReposiroty.save(food);
     }
 
-
- /*   public Page<SearchLocalItem> findAllLocalItem(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return localItemRepository.findAll(pageable);
-    }*/
-
     public List<FoodCntDto> findFoodCnt() {
         return  foodReposiroty.findFoodCnt();
-    }
-
-    public void delete(Long id) {
-        foodReposiroty.deleteById(id);
     }
 
 

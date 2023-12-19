@@ -1,5 +1,6 @@
 package com.lms.api.food.service.kakao;
 
+
 import com.lms.api.food.dto.kakao.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,19 +12,19 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-@Slf4j
 @Service
+@Slf4j
 @RequiredArgsConstructor
-public class KakaoAddressSearchService {
-    private final KakaoUriBuilderService kakaoUriBuilderService;
+public class CategorySearchService {
 
+    private static final String KAKAO_LOCAL_CATEGORY_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/category.json";
     private final RestTemplate restTemplate;
-
+    private static final String FOOD_CATEGORY = "FD6";
     @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
 
@@ -32,11 +33,12 @@ public class KakaoAddressSearchService {
             maxAttempts = 2,
             backoff = @Backoff(delay = 2000)
     )
-    public KakaoApiResponseDto requestAddressSearch(String address) {
+    public KakaoApiResponseDto requestFoodCategorySearch(String query) {
 
-        if(ObjectUtils.isEmpty(address)) return null;
-
-        URI uri = kakaoUriBuilderService.buildUriByAddressSearch(address);
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_LOCAL_CATEGORY_SEARCH_URL);
+        uriBuilder.queryParam("query", query);
+        uriBuilder.queryParam("category_group_code",  FOOD_CATEGORY);
+        URI uri =uriBuilder.build().encode().toUri();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoRestApiKey);
