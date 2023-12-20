@@ -1,6 +1,5 @@
 package com.lms.api.food.entity;
 
-import com.lms.api.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +11,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Food extends BaseTimeEntity {
+public class Food  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +21,5 @@ public class Food extends BaseTimeEntity {
     private double latitude;
     private double longitude;
 
-
-    public void changeFood(String food) {
-        this.food = food;
-    }
 
 }

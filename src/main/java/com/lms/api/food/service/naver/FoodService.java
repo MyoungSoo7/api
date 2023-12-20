@@ -1,14 +1,10 @@
 package com.lms.api.food.service.naver;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lms.api.food.dto.naver.*;
+import com.lms.api.food.dto.naver.SearchLocalRes;
 import com.lms.api.food.entity.Food;
-import com.lms.api.food.repository.FoodReposiroty;
 import com.lms.api.food.service.FoodRepositoryService;
+import com.lms.api.food.service.kakao.CategorySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URI;
 
 @Service
 @Slf4j
@@ -39,19 +29,26 @@ public class FoodService {
     private String naverClientId;
     @Value(value = "${naver.client.secret}")
     private String naverClientSecret;
+    @Value("${naver.url.search.local}")
+    private String naverLocalSearchUrl;
     private final FoodRepositoryService foodRepositoryService;
 
-    public SearchLocalRes localSearch(String query ,String searchUrl ,String sort)  throws IOException {
-        SearchLocalReq req =new SearchLocalReq();
-        req.setQuery(query);
-        req.setSort(sort);
+    @CircuitBreaker(name = "circuit-sample-3000", fallbackMethod = "searchFoodFallback")
+    public SearchLocalRes localSearch(String query   ,String sort)  throws Exception {
 
-        var uri = UriComponentsBuilder
-                .fromUriString(searchUrl)
-                .queryParams(req.toMultiValueMap())
-                .build()
-                .encode()
-                .toUri();
+        saveFoodKeyword(query);
+
+        long start =System.currentTimeMillis();
+        Thread.sleep(5000L);
+        long end =System.currentTimeMillis();
+        log.info("[slowCall] call => {}ms", end - start);
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(naverLocalSearchUrl);
+        uriBuilder.queryParam("query", query);
+        uriBuilder.queryParam("display", "5");
+        uriBuilder.queryParam("start", "1");
+        uriBuilder.queryParam("sort", sort);
+        URI uri = uriBuilder.build().encode().toUri();
 
         var headers = new HttpHeaders();
         headers.set("X-Naver-Client-Id", naverClientId);
@@ -75,5 +72,14 @@ public class FoodService {
         return searchLocalRes;
     }
 
+    private Food saveFoodKeyword(String query) {
+        return foodRepositoryService.save(Food.builder().food(query).build());
+    }
+
+    private SearchLocalRes searchFoodFallback(Throwable t) {
+        log.info("[fallbackMethod] call!!");
+        SearchLocalRes sr = null;
+        return sr;
+    }
 
 }

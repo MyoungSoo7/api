@@ -38,6 +38,21 @@ public class DocumentDto {
     @JsonProperty("x")
     private double mapx;
 
-
-
+    @Override
+    public String toString() {
+        return "DocumentDto{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", category='" + category + '\'' +
+                ", categoryGroupCode='" + categoryGroupCode + '\'' +
+                ", description='" + description + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", address='" + address + '\'' +
+                ", roadAddress='" + roadAddress + '\'' +
+                ", link='" + link + '\'' +
+                ", distance=" + distance +
+                ", mapy=" + mapy +
+                ", mapx=" + mapx +
+                '}';
+    }
 }

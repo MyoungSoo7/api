@@ -17,6 +17,8 @@ public class FoodRepositoryService {
 
     private final FoodReposiroty foodReposiroty;
 
+    //*** DB원자성 보장 => jpa사용 안하고 native query 사용 => update table set count = count +1 where food = food
+    // 카프카 사용하는법도 있다.
     public Food save(Food food) {
         return foodReposiroty.save(food);
     }

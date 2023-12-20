@@ -1,5 +1,8 @@
 package com.lms.api.food.dto.naver;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lms.api.food.dto.kakao.DocumentDto;
+import com.lms.api.food.dto.kakao.MetaDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +23,8 @@ public class SearchLocalRes {
     private List<SearchLocalItem> items;
     //개별 검색 결과이며 title, link, description, address, mapx, mapy를 포함한다.
 
-
+    @JsonProperty("meta")
+    private MetaDto metaDto;
+    @JsonProperty("documents")
+    private List<DocumentDto> documentList;
 }

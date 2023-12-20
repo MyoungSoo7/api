@@ -14,8 +14,31 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
  <!-- <script src="basic.js"></script>-->
+
+    <script>
+
+        $(document).ready(function () {
+            alert(1);
+           // popularKeyword();
+        });
+        /*function popularKeyword(){
+            alert(2);
+            $.ajax({
+                url: "/foodCnt",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    alert(3);
+                    console.log(data);
+                    var template = $('#popular-keyword-template').html();
+                    //
+                    ///$('#popular-keyword').html(render);
+                }
+            });*/
+        }
+
+    </script>
   <title>맛집 찾기</title>
 </head>
 
@@ -40,12 +63,15 @@
          </tr>
     </table>
     <br>
-     <div>
+     <div th:if="${pageHandler != null}" >
          <span th:each="num : ${#numbers.sequence(pageHandler.beginPage,pageHandler.endPage)}" >
                 <a th:if="${num == pageHandler.page}" th:text="${num}"></a>
                 <a th:if="${num != pageHandler.page}" th:href="@{/searchPage(keyword=${keyword},page=${num},pageSize=${pageHandler.pageSize})}" th:text="${num} "></a>
          </span>
      </div>
+    <br>
+
+    <button onclick="popularKeyword()">인기키워드</button>
 
     <table class="table table-hover">
     <tr>
@@ -57,6 +83,7 @@
             <td th:text="${keyword.cnt}"></td>
         </tr>
     </table>
+
 
 
 <div>

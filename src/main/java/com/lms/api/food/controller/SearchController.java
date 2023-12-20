@@ -1,23 +1,22 @@
 package com.lms.api.food.controller;
 
 
-import com.lms.api.food.dto.PageHandler;
-import com.lms.api.food.dto.kakao.DocumentDto;
 import com.lms.api.food.dto.FoodCntDto;
 import com.lms.api.food.dto.FoodInputDto;
-import com.lms.api.food.dto.naver.SearchLocalItem;
-import com.lms.api.food.entity.Food;
-import com.lms.api.food.service.kakao.CategorySearchService;
+import com.lms.api.food.dto.PageHandler;
+import com.lms.api.food.dto.naver.SearchLocalRes;
 import com.lms.api.food.service.FoodRepositoryService;
+import com.lms.api.food.service.kakao.CategorySearchService;
 import com.lms.api.food.service.naver.FoodService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -26,84 +25,59 @@ import java.util.List;
 public class SearchController {
 
     private final FoodService foodService;
-    private final FoodRepositoryService foodRepositoryService;
     private final CategorySearchService categorySearchService;
-    @Value("${naver.url.search.local}")
-    private String naverLocalSearchUrl;
- /*   @Value("${naver.url.search.blog}")
-    private String naverBlogSearchUrl;*/
+    private final FoodRepositoryService foodRepositoryService;
+
     @RequestMapping("/")
     public String index() {
-        return "main.html";
+        return "main";
     }
 
-    @RequestMapping("/search")
-    public ModelAndView searchFood(@ModelAttribute FoodInputDto food) throws IOException {
-        // 음식 키워드 저장
-        saveFoodKeyword(food);
-        // 음식 키워드와 카운트 가져오기
-        List<FoodCntDto> foodListWithCnt= foodListWithCount();
+    //** redis 낙관적 락 , 비관적락 lock 사용
+    //*** redis db 커넥션 과부하 해결
+    @PostMapping("/search")
+    public ModelAndView searchFoodApi(@ModelAttribute FoodInputDto food) throws Exception {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("food-search");
+        SearchLocalRes searchLocalRes = foodService.localSearch(food.getFood(), food.getSort());
+        if(searchLocalRes==null){
+            PageHandler pageHandler = new PageHandler( Integer.parseInt(food.getPage()) ,10 );
+            modelAndView.addObject("foodList",categorySearchService.requestFoodCategorySearch(food.getFood(), Integer.parseInt(food.getPage())).getDocumentList());
+            modelAndView.addObject("pageHandler", pageHandler);
+            modelAndView.addObject("keyword", food.getFood());
+            modelAndView.addObject("foodListWithCnt", foodRepositoryService.findFoodCnt());
+            return modelAndView;
+        }
+        modelAndView.addObject("foodList",searchLocalRes.getItems());
+        modelAndView.addObject("foodListWithCnt", foodRepositoryService.findFoodCnt());
 
+        return modelAndView;
+    }
+
+    /*public ModelAndView searchFoodFallback(FoodInputDto food) throws IOException {
+        List<DocumentDto> foodKakaoList = categorySearchService.requestFoodCategorySearch(food.getFood(), Integer.parseInt(food.getPage())).getDocumentList();
+
+        //int totalCnt = categorySearchService.requestFoodCategorySearch(food.getFood(),food.getPage()).getMetaDto().getTotalCount();
+        //Boolean next = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getIsEnd();
+        //int totalpage = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getPageableCount();
+        int totalCnt = foodKakaoList.size();
         int page =1;
         int pageSize = 10;
-
-        //음식 키워드 카카오 검색
-        List<DocumentDto> foodKakaoList = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getDocumentList();
+        int totalPage = 45;
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("output2.html");
-        modelAndView.addObject("foodListWithCnt", foodListWithCnt);
-
-        if(foodKakaoList.isEmpty()){
-            // 음식 키워드 지역 네이버 검색
-            List<SearchLocalItem> foodNaverList = foodService.localSearch(food.getFood(),naverLocalSearchUrl, food.getSort()).getItems();
-            modelAndView.addObject("foodList",foodNaverList);
-            modelAndView.addObject("totalCnt", foodNaverList.size());
-        }else{
-            // 음식 키워드 지역 네이버 검색
-            int totalCnt = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getTotalCount();
-            //Boolean next = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getIsEnd();
-            //int totalpage = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getPageableCount();
-            PageHandler pageHandler = new PageHandler(totalCnt,page,pageSize);
-            modelAndView.addObject("keyword", food.getFood());
-            modelAndView.addObject("foodList", foodKakaoList);
-            modelAndView.addObject("pageHandler", pageHandler);
-
-        }
-        return modelAndView;
-    }
-
-    @RequestMapping("/searchPage")
-    public ModelAndView searchFood(@RequestParam(value="keyword") String keyword
-            , @RequestParam(value = "page")int page) throws IOException {
-
-        // 음식 키워드와 카운트 가져오기
-        List<FoodCntDto> foodListWithCnt = foodListWithCount();
-        //음식 키워드 카카오 검색
-        List<DocumentDto> foodKakaoList = categorySearchService.requestFoodCategorySearch(keyword, page).getDocumentList();
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("output2.html");
-        modelAndView.addObject("foodListWithCnt", foodListWithCnt);
-
-        int pageSize = 10;
-        PageHandler pageHandler = new PageHandler(page,pageSize);
-
-        modelAndView.addObject("keyword", keyword);
+        PageHandler pageHandler = new PageHandler(totalCnt, Integer.parseInt(food.getPage()) ,pageSize,totalPage );
+        modelAndView.setViewName("food-search");
         modelAndView.addObject("foodList", foodKakaoList);
+        modelAndView.addObject("totalCnt", foodKakaoList.size());
         modelAndView.addObject("pageHandler", pageHandler);
+        modelAndView.addObject("keyword", food.getFood());
         return modelAndView;
-    }
+    }*/
 
-    private List<FoodCntDto> foodListWithCount() {
+    @GetMapping("/foodCnt")
+    public List<FoodCntDto> foodListWithCount() {
         return foodRepositoryService.findFoodCnt();
     }
-
-    private void saveFoodKeyword(FoodInputDto food) {
-        foodRepositoryService.save(Food.builder()
-                .food(food.getFood())
-                .build());
-    }
-
 
 }

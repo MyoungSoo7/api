@@ -12,8 +12,33 @@ spring:
   config:
     activate:
       on-profile: common
-#  thymeleaf:
-#    cache: false
+  thymeleaf:
+    cache: false
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:  # 기본 config 명
+        registerHealthIndicator: true
+        # COUNT_BASED(마지막 N번의 호출 결과를 기반), TIME_BASED(마지막 N초의 결과를 기반) (호출 결과를 저장하고 집계하기 위해 slidingWindow 사용)
+        slidingWindowType: COUNT_BASED
+        # COUNT_BASED: array크기, TIME_BASED: 초
+        slidingWindowSize: 5
+        # circuit을 동작시키기위한 최소한의 call 수
+        minimumNumberOfCalls: 2
+        slowCallRateThreshold: 100
+        slowCallDurationThreshold: 60000
+        failureRateThreshold: 50 # 실패율 임계값(50%)
+        permittedNumberOfCallsInHalfOpenState: 3
+        # 서킷의 상태가 Open 에서 Half-open 으로 변경되기전에 Circuit Break가 기다리는 시간[s](HALF_OPEN 상태로 빨리 전환되어 장애가 복구 될 수 있도록)
+        waitDurationInOpenState: 20s
+    instances:
+      circuit-sample-common: # circuitbreaker name
+        baseConfig: default # 기본 config 지정
+      circuit-sample-3000:
+        baseConfig: default
+        slowCallDurationThreshold: 3000 # 응답시간이 느린것으로 판단할 기준 시간 [ms]
+
 
 naver:
   client:

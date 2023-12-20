@@ -15,7 +15,7 @@ public class MetaDto {
     private Integer pageableCount;
     @JsonProperty("is_end")
     private Boolean isEnd;
-    @JsonProperty("same_name")
-    private SameNameDto sameName;
+
+
 
 }
