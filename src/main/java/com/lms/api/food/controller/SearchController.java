@@ -4,7 +4,7 @@ package com.lms.api.food.controller;
 import com.lms.api.food.repository.FoodCntDto;
 import com.lms.api.food.dto.FoodInputDto;
 import com.lms.api.food.dto.PageHandler;
-import com.lms.api.food.dto.naver.SearchLocalRes;
+import com.lms.api.food.dto.SearchLocalRes;
 import com.lms.api.food.service.FoodRepositoryService;
 import com.lms.api.food.service.kakao.CategorySearchService;
 import com.lms.api.food.service.naver.FoodService;

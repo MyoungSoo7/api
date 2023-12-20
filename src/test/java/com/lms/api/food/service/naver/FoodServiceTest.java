@@ -1,6 +1,6 @@
 package com.lms.api.food.service.naver;
 
-import com.lms.api.food.dto.naver.SearchLocalRes;
+import com.lms.api.food.dto.SearchLocalRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;

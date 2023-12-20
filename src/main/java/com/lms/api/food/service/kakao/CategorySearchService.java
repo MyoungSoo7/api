@@ -1,7 +1,7 @@
 package com.lms.api.food.service.kakao;
 
 
-import com.lms.api.food.dto.naver.SearchLocalRes;
+import com.lms.api.food.dto.SearchLocalRes;
 import com.lms.api.food.entity.Food;
 import com.lms.api.food.service.FoodRepositoryService;
 import lombok.RequiredArgsConstructor;

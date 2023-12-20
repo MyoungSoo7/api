@@ -1,8 +1,9 @@
-package com.lms.api.food.dto.naver;
+package com.lms.api.food.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lms.api.food.dto.kakao.DocumentDto;
 import com.lms.api.food.dto.kakao.MetaDto;
+import com.lms.api.food.dto.naver.SearchLocalItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
