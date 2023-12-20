@@ -1,7 +1,7 @@
 package com.lms.api.food.controller;
 
 
-import com.lms.api.food.dto.FoodCntDto;
+import com.lms.api.food.repository.FoodCntDto;
 import com.lms.api.food.dto.FoodInputDto;
 import com.lms.api.food.dto.PageHandler;
 import com.lms.api.food.dto.naver.SearchLocalRes;
@@ -53,27 +53,6 @@ public class SearchController {
 
         return modelAndView;
     }
-
-    /*public ModelAndView searchFoodFallback(FoodInputDto food) throws IOException {
-        List<DocumentDto> foodKakaoList = categorySearchService.requestFoodCategorySearch(food.getFood(), Integer.parseInt(food.getPage())).getDocumentList();
-
-        //int totalCnt = categorySearchService.requestFoodCategorySearch(food.getFood(),food.getPage()).getMetaDto().getTotalCount();
-        //Boolean next = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getIsEnd();
-        //int totalpage = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getPageableCount();
-        int totalCnt = foodKakaoList.size();
-        int page =1;
-        int pageSize = 10;
-        int totalPage = 45;
-
-        ModelAndView modelAndView = new ModelAndView();
-        PageHandler pageHandler = new PageHandler(totalCnt, Integer.parseInt(food.getPage()) ,pageSize,totalPage );
-        modelAndView.setViewName("food-search");
-        modelAndView.addObject("foodList", foodKakaoList);
-        modelAndView.addObject("totalCnt", foodKakaoList.size());
-        modelAndView.addObject("pageHandler", pageHandler);
-        modelAndView.addObject("keyword", food.getFood());
-        return modelAndView;
-    }*/
 
     @GetMapping("/foodCnt")
     public List<FoodCntDto> foodListWithCount() {

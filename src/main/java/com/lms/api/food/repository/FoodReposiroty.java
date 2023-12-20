@@ -1,7 +1,6 @@
 package com.lms.api.food.repository;
 
 
-import com.lms.api.food.dto.FoodCntDto;
 import com.lms.api.food.entity.Food;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

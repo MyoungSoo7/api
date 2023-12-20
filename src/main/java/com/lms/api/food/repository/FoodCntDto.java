@@ -1,4 +1,4 @@
-package com.lms.api.food.dto;
+package com.lms.api.food.repository;
 
 
 public interface FoodCntDto {
