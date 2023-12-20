@@ -26,7 +26,6 @@ import java.net.URI;
 public class CategorySearchService {
 
     private static final String KAKAO_LOCAL_CATEGORY_SEARCH_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
-    private final RestTemplate restTemplate;
     private static final String FOOD_CATEGORY = "FD6";
     @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
