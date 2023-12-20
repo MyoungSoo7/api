@@ -9,4 +9,5 @@ public class FoodInputDto {
     private String sort;
     private String page;
     private String cnt;
+    private String keyword;
 }

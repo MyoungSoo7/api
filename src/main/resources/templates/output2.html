@@ -40,26 +40,13 @@
          </tr>
     </table>
     <br>
-  <!-- <div th:text="${pageHandler.totalCount}"></div>-->
-
      <div>
-      <!--   <span th:if="${pageHandler.prev ?}"    ></span>-->
          <span th:each="num : ${#numbers.sequence(pageHandler.beginPage,pageHandler.endPage)}" >
                 <a th:if="${num == pageHandler.page}" th:text="${num}"></a>
                 <a th:if="${num != pageHandler.page}" th:href="@{/searchPage(keyword=${keyword},page=${num},pageSize=${pageHandler.pageSize})}" th:text="${num} "></a>
          </span>
      </div>
 
-    <!--<div th:text="${ph.page}"></div  >-->
-  <!--  <div th:text="${ph.beginPage}"></div  >
-    <div th:text="${ph.endPage}"></div  >
-    <div th:text="${ph.prev}"></div  >
-    <div th:text="${ph.next}"></div  >
-
-    <div th:value="i" th:min="${ph.beginPage}" th:max="${ph.endPage}">
-          <a th:text="${ph.page}"></a> <span th:text="${i}"></span>
-    </div>
--->
     <table class="table table-hover">
     <tr>
         <th>keyword</th>

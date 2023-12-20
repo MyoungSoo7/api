@@ -53,28 +53,20 @@ public class SearchController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("output2.html");
         modelAndView.addObject("foodListWithCnt", foodListWithCnt);
+
         if(foodKakaoList.isEmpty()){
             // 음식 키워드 지역 네이버 검색
             List<SearchLocalItem> foodNaverList = foodService.localSearch(food.getFood(),naverLocalSearchUrl, food.getSort()).getItems();
             modelAndView.addObject("foodList",foodNaverList);
             modelAndView.addObject("totalCnt", foodNaverList.size());
-            modelAndView.addObject("page", 1);
-            modelAndView.addObject("next", false);
         }else{
-
+            // 음식 키워드 지역 네이버 검색
             int totalCnt = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getTotalCount();
-            Boolean next = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getIsEnd();
-            int totalpage = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getPageableCount();
-            System.out.println("totalCnt"+totalCnt);
+            //Boolean next = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getIsEnd();
+            //int totalpage = categorySearchService.requestFoodCategorySearch(food.getFood(),page).getMetaDto().getPageableCount();
             PageHandler pageHandler = new PageHandler(totalCnt,page,pageSize);
-            System.out.println("pageHandler"+pageHandler.toString());
             modelAndView.addObject("keyword", food.getFood());
             modelAndView.addObject("foodList", foodKakaoList);
-            modelAndView.addObject("totalCnt", totalCnt);
-            modelAndView.addObject("totalpage", totalpage);
-            modelAndView.addObject("offset", (page-1)*pageSize);
-            modelAndView.addObject("page", page);
-            modelAndView.addObject("next", next);
             modelAndView.addObject("pageHandler", pageHandler);
 
         }
@@ -95,20 +87,10 @@ public class SearchController {
         modelAndView.addObject("foodListWithCnt", foodListWithCnt);
 
         int pageSize = 10;
-        int totalCnt = categorySearchService.requestFoodCategorySearch(keyword,page).getMetaDto().getTotalCount();
-        Boolean next = categorySearchService.requestFoodCategorySearch(keyword,page).getMetaDto().getIsEnd();
-        int totalpage = categorySearchService.requestFoodCategorySearch(keyword,page).getMetaDto().getPageableCount();
-        System.out.println("totalCnt"+totalCnt);
         PageHandler pageHandler = new PageHandler(page,pageSize);
 
-        System.out.println("pageHandler"+pageHandler.toString());
         modelAndView.addObject("keyword", keyword);
         modelAndView.addObject("foodList", foodKakaoList);
-        modelAndView.addObject("totalCnt", totalCnt);
-        modelAndView.addObject("totalpage", totalpage);
-        modelAndView.addObject("offset", (page-1)*pageSize);
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("next", next);
         modelAndView.addObject("pageHandler", pageHandler);
         return modelAndView;
     }
