@@ -33,11 +33,13 @@ public class CategorySearchService {
             maxAttempts = 2,
             backoff = @Backoff(delay = 2000)
     )
-    public KakaoApiResponseDto requestFoodCategorySearch(String query) {
+    public KakaoApiResponseDto requestFoodCategorySearch(String query ,int page) {
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_LOCAL_CATEGORY_SEARCH_URL);
         uriBuilder.queryParam("query", query);
         uriBuilder.queryParam("category_group_code",  FOOD_CATEGORY);
+        uriBuilder.queryParam("size", 10);
+        uriBuilder.queryParam("page", page);
         URI uri =uriBuilder.build().encode().toUri();
 
         HttpHeaders headers = new HttpHeaders();

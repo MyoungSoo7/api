@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta property="og:title" content="맛집찾기">
+  <meta property="og:description" content="맛집찾기">
+  <!--<meta property="og:image" content="images/og_selectshop.png">-->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+ <!-- <script src="basic.js"></script>-->
+  <title>맛집 찾기</title>
+</head>
+
+<body>
+    <!--${totalCnt}건 <br>
+   전체페이지 : {{ page }} <br>
+   마지막페이지 여부 {{next}} <br>-->
+    <table class="table table-hover">
+        <tr>
+            <th>제목</th>
+            <th>주소</th>
+            <th>도로명</th>
+            <th>위도</th>
+            <th>경도</th>
+        </tr>
+         <tr th:each="food : ${foodList}">
+                <td th:text="${food.title}"><a th:href="${food.link}"  target="_blank"></a></td>
+                <td th:text="${food.address}"></td>
+                <td th:text="${food.roadAddress}"></td>
+                <td th:text="${food.mapy}"></td>
+                <td th:text="${food.mapx}"></td>
+         </tr>
+    </table>
+    <br>
+  <!-- <div th:text="${pageHandler.totalCount}"></div>-->
+
+     <div>
+      <!--   <span th:if="${pageHandler.prev ?}"    ></span>-->
+         <span th:each="num : ${#numbers.sequence(pageHandler.beginPage,pageHandler.endPage)}" >
+                <a th:if="${num == pageHandler.page}" th:text="${num}"></a>
+                <a th:if="${num != pageHandler.page}" th:href="@{/searchPage(keyword=${keyword},page=${num},pageSize=${pageHandler.pageSize})}" th:text="${num} "></a>
+         </span>
+     </div>
+
+    <!--<div th:text="${ph.page}"></div  >-->
+  <!--  <div th:text="${ph.beginPage}"></div  >
+    <div th:text="${ph.endPage}"></div  >
+    <div th:text="${ph.prev}"></div  >
+    <div th:text="${ph.next}"></div  >
+
+    <div th:value="i" th:min="${ph.beginPage}" th:max="${ph.endPage}">
+          <a th:text="${ph.page}"></a> <span th:text="${i}"></span>
+    </div>
+-->
+    <table class="table table-hover">
+    <tr>
+        <th>keyword</th>
+        <th>횟수</th>
+    </tr>
+        <tr th:each="keyword : ${foodListWithCnt}">
+            <td th:text="${keyword.food}"></td>
+            <td th:text="${keyword.cnt}"></td>
+        </tr>
+    </table>
+
+
+<div>
+<a href="/">뒤로</a>
+</div>
+</body>
+</html>

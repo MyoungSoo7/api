@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.api.food.dto.naver.*;
+import com.lms.api.food.entity.Food;
 import com.lms.api.food.repository.FoodReposiroty;
+import com.lms.api.food.service.FoodRepositoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +39,7 @@ public class FoodService {
     private String naverClientId;
     @Value(value = "${naver.client.secret}")
     private String naverClientSecret;
-
+    private final FoodRepositoryService foodRepositoryService;
 
     public SearchLocalRes localSearch(String query ,String searchUrl ,String sort)  throws IOException {
         SearchLocalReq req =new SearchLocalReq();
@@ -72,5 +74,6 @@ public class FoodService {
 
         return searchLocalRes;
     }
+
 
 }
