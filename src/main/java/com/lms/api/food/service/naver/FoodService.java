@@ -4,6 +4,8 @@ package com.lms.api.food.service.naver;
 import com.lms.api.food.dto.SearchLocalRes;
 import com.lms.api.food.entity.Food;
 import com.lms.api.food.service.FoodRepositoryService;
+import com.lms.api.food.service.kakao.CategorySearchService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 import java.net.URI;
 
@@ -31,14 +32,21 @@ public class FoodService {
     @Value("${naver.url.search.local}")
     private String naverLocalSearchUrl;
     private final FoodRepositoryService foodRepositoryService;
+    private final CategorySearchService categorySearchService;
 
-    @CircuitBreaker(name = "circuit-sample-3000", fallbackMethod = "searchFoodFallback")
-    public SearchLocalRes localSearch(String query   ,String sort)  throws Exception {
+
+
+    @CircuitBreaker(name = "circuit-sample-3000", fallbackMethod = "searchFoodFallback" )
+    public SearchLocalRes localSearch(String query   ,String sort)   {
 
         saveFoodKeyword(query);
 
         long start =System.currentTimeMillis();
-        Thread.sleep(5000L);
+        try {
+            Thread.sleep(5000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         long end =System.currentTimeMillis();
         log.info("[slowCall] call => {}ms", end - start);
 
@@ -57,6 +65,7 @@ public class FoodService {
         var httpEntity = new HttpEntity<>(headers);
 
         var responseType = new ParameterizedTypeReference<SearchLocalRes>(){};
+
         var responseEntity = new RestTemplate()
                 .exchange(
                         uri,
@@ -64,19 +73,17 @@ public class FoodService {
                         httpEntity,
                         responseType
                 );
+        //String responseBody = String.valueOf(responseEntity.getBody());
+        SearchLocalRes sr = responseEntity.getBody();
 
-        String responseBody = String.valueOf(responseEntity.getBody());
-        SearchLocalRes searchLocalRes = responseEntity.getBody();
-
-        return searchLocalRes;
+        return sr;
     }
 
-    private Food saveFoodKeyword(String query) {
-        return foodRepositoryService.save(Food.builder().food(query).build());
+    private void saveFoodKeyword(String query) {
+        foodRepositoryService.save(Food.builder().food(query).build());
     }
 
     private SearchLocalRes searchFoodFallback(Throwable t) {
-        log.info("[fallbackMethod] call!!");
         SearchLocalRes sr = null;
         return sr;
     }

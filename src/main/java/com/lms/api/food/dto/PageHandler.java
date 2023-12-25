@@ -22,8 +22,8 @@ public class PageHandler {
         //this.totoalPage = totoalPage;
         //totoalPage = (int)Math.ceil(totalCount/pageSize);
         beginPage = (page-1)/navSize*navSize+1;
-        //endPage = Math.min(beginPage+navSize -1, totoalPage);
-        endPage=totoalPage;
+        endPage = Math.min(beginPage+navSize -1, totoalPage);
+        //endPage=totoalPage;
         prev = beginPage != 1;
         next = endPage != totoalPage;
     }

@@ -4,6 +4,7 @@ package com.lms.api.food.service.kakao;
 import com.lms.api.food.dto.SearchLocalRes;
 import com.lms.api.food.entity.Food;
 import com.lms.api.food.service.FoodRepositoryService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +12,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,11 +29,13 @@ public class CategorySearchService {
     private String kakaoRestApiKey;
     private final FoodRepositoryService foodRepositoryService;
 
-    @Retryable(
+ /*   @Retryable(
             exceptionExpression = "RuntimeException.class",
             maxAttempts = 2,
             backoff = @Backoff(delay = 2000)
-    )
+    )*/
+
+    //@CircuitBreaker(name = "circuit-sample-3000", fallbackMethod = "requestFoodCategorySearch")
     public SearchLocalRes requestFoodCategorySearch(String query, int page) {
 
         foodRepositoryService.save(Food.builder().food(query).build());
@@ -67,9 +67,15 @@ public class CategorySearchService {
 
     }
 
-    @Recover
+   /* public SearchLocalRes requestFoodCategorySearch(RuntimeException e, String query, int page) {
+        SearchLocalRes searchLocalRes = new SearchLocalRes();
+        log.error("All the retries failed. query: {}, error : {}", query, e.getMessage());
+        return searchLocalRes;
+    }*/
+
+   /* @Recover
     public SearchLocalRes recover(RuntimeException e, String address) {
         log.error("All the retries failed. address: {}, error : {}", address, e.getMessage());
         return null;
-    }
+    }*/
 }

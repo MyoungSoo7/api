@@ -40,7 +40,7 @@ public class SearchController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("food-search");
         SearchLocalRes searchLocalRes = foodService.localSearch(food.getFood(), food.getSort());
-        //  null 이면 db에서 만들어서 보냄
+
         if(searchLocalRes==null){
             PageHandler pageHandler = new PageHandler( Integer.parseInt(food.getPage()) ,10 );
             modelAndView.addObject("foodList",categorySearchService.requestFoodCategorySearch(food.getFood(), Integer.parseInt(food.getPage())).getDocumentList());

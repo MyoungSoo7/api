@@ -18,12 +18,8 @@
 
     <script>
 
-        $(document).ready(function () {
-            alert(1);
-           // popularKeyword();
-        });
-        /*function popularKeyword(){
-            alert(2);
+
+        function popularKeyword(){
             $.ajax({
                 url: "/foodCnt",
                 type: "GET",
@@ -35,7 +31,7 @@
                     //
                     ///$('#popular-keyword').html(render);
                 }
-            });*/
+            });
         }
 
     </script>
@@ -63,12 +59,12 @@
          </tr>
     </table>
     <br>
-     <div th:if="${pageHandler != null}" >
+  <!--   <div th:if="${pageHandler != null}" >
          <span th:each="num : ${#numbers.sequence(pageHandler.beginPage,pageHandler.endPage)}" >
                 <a th:if="${num == pageHandler.page}" th:text="${num}"></a>
-                <a th:if="${num != pageHandler.page}" th:href="@{/searchPage(keyword=${keyword},page=${num},pageSize=${pageHandler.pageSize})}" th:text="${num} "></a>
+                <a th:if="${num != pageHandler.page}" th:href="@{/search(keyword=${keyword},page=${num},pageSize=${pageHandler.pageSize})}" th:text="${num} "></a>
          </span>
-     </div>
+     </div>-->
     <br>
 
     <button onclick="popularKeyword()">인기키워드</button>
